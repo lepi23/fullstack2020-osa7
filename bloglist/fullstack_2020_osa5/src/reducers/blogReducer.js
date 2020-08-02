@@ -12,7 +12,7 @@ const reducer = (state = [], action) => {
     case 'CREATE': 
       return [...state, action.data]
     case 'REMOVE': 
-      return [...state, action.data]
+      return state.filter(blog => blog.id !== action.toRemove).sort(byLikes)
     default: 
       return state
   }
@@ -20,6 +20,7 @@ const reducer = (state = [], action) => {
 
 export const createBlog = (content) => {
   return async dispatch => {
+    console.log(content)
     const data = await blogService.create(content)
     dispatch({
       type: 'CREATE',
@@ -40,8 +41,8 @@ export const initializeBlogs = () => {
 
 export const likeBlog = (blog) => {
   return async dispatch => {
-    const toLike = {...blog, votes: blog.likes + 1 }
-    const data = await blogService.update(toLike)
+    const toLike = { ...blog, likes: blog.likes + 1, user: blog.user.id }
+    const data = await blogService.update(blog.id, toLike)
     dispatch({
       type: 'LIKE',
       data
@@ -52,11 +53,10 @@ export const likeBlog = (blog) => {
 export const removeBlog = (blog) => {
     return async dispatch => {
       const toRemove = blog.id
-      const data = await blogService.remove(toRemove)
-      console.log(data)
+      await blogService.remove(toRemove)
       dispatch({
         type: 'REMOVE',
-        data
+        toRemove
       })
     }
     
