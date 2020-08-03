@@ -5,7 +5,6 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
-//import RenderUserInfo from './components/RenderUserInfo'
 import Togglable from './components/Togglable'
 import UsersView from './components/UsersView'
 import UserView from './components/Userview'
@@ -37,7 +36,6 @@ const App = () => {
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
         if (loggedUserJSON) {
-            console.log(loggedUserJSON)
             const user = JSON.parse(loggedUserJSON)
             dispatch(loggedIn(user))
             blogService.setToken(user.token)
@@ -46,30 +44,6 @@ const App = () => {
     
     const blogFormRef = useRef()
 
-    const handleLogin = async (event) => {
-        event.preventDefault()
-        try {
-            const user = await loginService.login({
-                username, password,
-            })
-
-            window.localStorage.setItem(
-                'loggedBlogappUser', JSON.stringify(user)
-            )
-            dispatch(setNotification(`${user.username} logged in succesfully`, 5))
-            setUsername('')
-            setPassword('')
-        } catch (exception) {
-            dispatch(setNotification('wrong username or password', 5))
-            setTimeout(() => {
-            }, 5000)
-        }
-    }
-    const handleLogout = async (event) => {
-        event.preventDefault()
-        localStorage.clear()
-        dispatch(setNotification(`logout ${user.username} succesfully`, 5))
-    }
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
     }
@@ -84,21 +58,23 @@ const App = () => {
     }
     if (user === null) {
         return (
-            <Switch>
-                <Route path='/'>  
-                    <Notification />
-                    <LoginForm
-                        username={username}
-                        handleUsernameChange={handleUsernameChange}
-                        password={password}
-                        handlePasswordChange={handlePasswordChange}
-                    />
-                </Route>
-            </Switch>
+            <div class="container">
+                <Switch>
+                    <Route path='/'>  
+                        <Notification />
+                        <LoginForm
+                            username={username}
+                            handleUsernameChange={handleUsernameChange}
+                            password={password}
+                            handlePasswordChange={handlePasswordChange}
+                        />
+                    </Route>
+                </Switch>
+            </div>    
         )
     }
     return (
-        <div>
+        <div class="container">
             <h1>blogs</h1>
             <Menu/>
             <Switch>

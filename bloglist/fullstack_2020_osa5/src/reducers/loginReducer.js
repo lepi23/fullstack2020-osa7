@@ -7,7 +7,6 @@ const reducer = (state = null, action) => {
     case 'LOGOUT':
         return null
     case 'LOGGED_IN':
-        console.log(action.user)
         return action.user
     default: 
         return state

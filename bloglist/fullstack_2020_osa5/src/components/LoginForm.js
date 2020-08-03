@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import {login} from '../reducers/loginReducer'
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = ({
     handleUsernameChange,
@@ -17,31 +18,29 @@ const LoginForm = ({
     return (
         <div>
             <h2>Log in to application</h2>
-            <form onSubmit = {handleLogin}>
-                <div>
-                username:
-                    <input
+            <Form onSubmit = {handleLogin}>
+                <Form.Group>
+                    <Form.Label>username:</Form.Label>
+                    <Form.Control
                         id='username'
                         type="text"
                         value={username}
                         name="Username"
                         onChange={handleUsernameChange}
                     />
-                </div>
-                <div>
-                password:
-                    <input
+                    <Form.Label>password:</Form.Label>
+                    <Form.Control
                         id='password'
                         type="password"
                         value={password}
                         name="Password"
                         onChange={handlePasswordChange}
                     />
-                </div>
-                <div>
-                    <button type='submit' id='login-button'>login</button>
-                </div>
-            </form>
+                    <Button variant="primary" type="submit">
+                        login
+                    </Button> 
+                </Form.Group>
+            </Form>
         </div>
     )
 }

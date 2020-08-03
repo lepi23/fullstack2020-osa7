@@ -13,7 +13,7 @@ const Menu = () => {
         dispatch(logout())
     }
     return (
-      <div>
+      <div className='navigationBar'>
         <a href='/' style={padding}>blogs</a>
         <a href='/users' style={padding}>users</a>
         {user.name} logged in
